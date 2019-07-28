@@ -23,17 +23,12 @@
 
 <body id="to-top">
   
-<?php if(Isset($_SESSION['email'])) {
+<?php if(Isset($_SESSION['id'])) {
     $email = $_SESSION['email'];
-    $count = "SELECT count(*) FROM cart WHERE email = '$email'";
-    $q_c = mysqli_query($con,$count);
-    if (mysqli_num_rows($q_c) > 0) {
-
-       while($qq = mysqli_fetch_assoc($q_c)){
-            $c = count($qq);
-       }
-    }else{
-      $qq = 0;
+    $count = "SELECT * FROM cart WHERE email = '$email'";
+    $result = mysqli_query($con,$count);
+    if($row = mysqli_fetch_assoc($result)) {
+      $qq = mysqli_num_rows($result);
     }
   ?>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-success text-bold">
@@ -98,7 +93,7 @@
         </div>
       </div>
       <div class="ml-3">
-        <span class="badge badge-warning  text-white text-bold badge-pill"><?php echo $c;?></span>
+        <span class="badge badge-warning  text-white text-bold badge-pill"><?php echo $qq;?></span>
       <a href="../../cart.php" class="text-white cart-icon"><i class="fa fa-shopping-cart" style="font-size: 120%;"></i> Cart</a>
       
       </div>

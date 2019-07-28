@@ -16,29 +16,38 @@ include('includes/header.php');
                         <div class="card-body">
                             <div class="row">
                             <div class="col-8">
-                          <?php while($qq = mysqli_fetch_assoc($q_c)) { 
-                            $_SESSION['title'] = $qq['title'];
-                            $_SESSION['price'] = $qq['price'];
-                            $_SESSION['o_price'] = $qq['o_price'];
-                            $_SESSION['qnt'] = $qq['qnt'];
-                            $_SESSION['img'] = $qq['img_src'];  
+                                                                
+                          <?php 
+                          $email = $_SESSION['email'];
+                          $sql = "SELECT * FROM cart WHERE email = '$email';";
+                          $total = "SELECT SUM(price) as sum FROM cart WHERE email = '$email';";
+                         
+                          $result = mysqli_query($con, $sql);
+                          $totals =mysqli_query($con, $total);
+                          
+                          while($row = mysqli_fetch_assoc($result)) { 
+                            $title = $row['title'];
+                            $price = $row['price'];
+                            $o_price = $row['o_price'];
+                            $qnt = $row['qnt'];
+                            $imgsrc = $row['img_src'];  
                             ?>
                             <div class="row py-2">
                                 <div class="col-4">
                                     <div class="text-center">
-                                        <div class="product-img"><img src="<?php echo $_SESSION['img'] ?>" alt="<?php echo $_SESSION['title'] ?>" /></div>
+                                        <div class="product-img"><img src="<?php echo $imgsrc; ?>" alt="<?php echo $title; ?>" /></div>
                                         <form action="" class="form-inline">
                                             <div class="input-group input-group-sm px-4">
                                                 <div class="input-group-prepend"><button type="button" class="btn btn-success" id="minus">&#8722;</button></div>
-                                                <input type="text" name="qnt" id="cart-qnt" value="<?php echo $_SESSION['qnt'] ?>" class="form-control text-center">
+                                                <input type="text" name="qnt" id="cart-qnt" value="<?php echo $qnt; ?>" class="form-control text-center">
                                                 <div class="input-group-append"><button type="button" class="btn btn-success" id="plus">&#43;</button></div>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                                 <div class="col-8 p-3 pl-5">
-                                    <h5 class="text-uppercase"><?php echo $_SESSION['title'] ?></h5>
-                                    <p>&#8377;<?php echo $_SESSION['price'] ?> <s class="text-muted">&#8377;<?php echo $_SESSION['o_price'] ?></s></p>
+                                    <h5 class="text-uppercase"><?php echo $title ?></h5>
+                                    <p>&#8377;<?php echo $price; ?> <s class="text-muted">&#8377;<?php echo $o_price; ?></s></p>
                                     <p><span class=" align-top">Color</span> 
                                         <a href=""><span class="pcolor c-1"></span></a>
                                         <a href=""><span class="pcolor c-2"></span></a>
@@ -75,7 +84,11 @@ include('includes/header.php');
                         <div class="card-body">
                             <p class="card-text">
                                 <span>Product Price:</span>
-                                <span class="float-right">&#8377;12999.00</span>
+                                <span class="float-right">&#8377;<?php if($p_total = mysqli_fetch_assoc($totals)) {
+                                    echo $p_total['sum'];
+                                }
+                                
+                                ?></span>
                             </p>
                             <p class="card-text">
                                 <span>Delivery Charge:</span>
@@ -84,12 +97,18 @@ include('includes/header.php');
                             <hr>
                             <p class="card-text">
                                 <strong>Total</strong>
-                                <span class="float-right">&#8377;12999.00</span>
+                                <span class="float-right">&#8377;<?php  echo $p_total['sum']; ?></span>
                             </p>
                             <hr>
                             <p>
                                 <span>You Saved:</span>
-                                <span class="float-right text-danger">&#8377;2000.00</span>
+                                <span class="float-right text-danger">&#8377;<?php 
+                                $sql = "SELECT sum(o-price) as sum FROM cart WHERE email = '$email'";
+                                 $o_totals = mysqli_query($con, $sql);
+                                if($o_total = mysqli_fetch_assoc($o_totals)) {
+                                    echo $o_total['sum'];
+                                }
+                                 echo ($p_total['sum'] - o_total['sum']) ?></span>
                             </p>
                         </div>
                     </div>

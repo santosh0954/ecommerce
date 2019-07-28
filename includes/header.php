@@ -1,6 +1,7 @@
 <?php 
-  session_start();
-  include('includes/conection.php');
+  require_once('includes/session.php');
+  require_once('includes/conection.php');
+  require_once('includes/function.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,13 +23,12 @@
 
 <body id="to-top">
   
-<?php if(Isset($_SESSION['email'])) {
+<?php if(Isset($_SESSION['id'])) {
     $email = $_SESSION['email'];
     $count = "SELECT * FROM cart WHERE email = '$email'";
-    $q_c = mysqli_query($con,$count);
-    if($qq = mysqli_fetch_assoc($q_c)) {
-      $qq = count($qq);
-    }
+    $result = mysqli_query($con,$count);
+      $qq = mysqli_num_rows($result);
+
   ?>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-success text-bold">
     <div class="container">

@@ -56,18 +56,18 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <form action="login.php" method="post">
+          <?php echo message(); ?>
         <div class="form-group">
           <label for="Email1">Email address</label>
-          <input type="email" class="form-control" id="Email1" aria-describedby="emailHelp" placeholder="Enter email" name="login_name"
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          <input type="email" class="form-control" id="Email1" aria-describedby="emailHelp" placeholder="Enter email" name="login_name">
         </div>
         <div class="form-group">
           <label for="Password1">Password</label>
           <input type="password" class="form-control" id="Password1" placeholder="Password" name="login_pass">
         </div>
         <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
-          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+          <label class="form-check-label" for="rememberMe">Remmember me</label>
         </div>
         <button type="submit" class="btn btn-success" name="login">Log In</button>
       </form>
@@ -155,8 +155,8 @@
             </div>
             <div class="form-group">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
+                <input class="form-check-input" type="checkbox" id="terms" name="terms">
+                <label class="form-check-label" for="terms">
                   I agree the terms and condition of the onedeals.
                 </label>
               </div>
